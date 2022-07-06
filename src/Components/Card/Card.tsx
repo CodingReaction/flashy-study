@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 
 import {CARD_STATE, CARD_FACE} from './Card.types';
+import cardsMock from './../../MockData/Card/cardsMock.json';
 
 const CardTitle = ({cardState}: {cardState: CARD_STATE}) =>{
     return <h2>Title</h2>

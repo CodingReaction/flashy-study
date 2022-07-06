@@ -7,3 +7,10 @@ export enum CARD_FACE {
 export enum CARD_STATE {
     EDITABLE, USABLE
 }
+
+export type CardData = {
+  id: number;
+  title: string;
+  frontText: string;
+  backText: string;
+};

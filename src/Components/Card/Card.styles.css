@@ -1,0 +1,35 @@
+.cards-container{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.cards-container > *{
+    margin-bottom: 20px;
+}
+
+.card{
+    padding: 10px;
+    border: 2px solid lightcoral;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 350px;
+    height: 500px;
+}
+
+.card > input[type="text"]{
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+
+.flip-cards-button{
+    position: fixed;
+    right: 10px;
+}

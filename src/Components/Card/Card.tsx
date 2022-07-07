@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 
-import { CardData, CARD_STATE, CARD_FACE } from "./Card.types";
+import {
+  CardData,
+  CardDataUpdatable,
+  CARD_STATE,
+  CARD_FACE,
+} from "./Card.types";
 import cardsMock from "./../../MockData/Card/cardsMock.json";
+
+import "./Card.styles.css";
 
 const CardTitle = ({
   cardState,
@@ -41,38 +48,23 @@ const CardReversal = () => {
   return <div>Card reversal</div>;
 };
 
-const Card = ({ cardState }: { cardState: CARD_STATE }) => {
+const CardsDisplay = () => {
+  const [cardState, setCardState] = useState(CARD_STATE.EDITABLE);
   const [cardFace, toggleCardFace] = useState(CARD_FACE.FRONT);
   const [cardsData, setCardsData] = useState(cardsMock);
 
   return (
-    <div>
-      {cardsData.map((cardData) => {
-        return cardFace === CARD_FACE.FRONT ? (
-          <>
-            <CardTitle
-              key={cardData.id}
-              cardState={cardState}
-              data={cardData.title}
-              updateData={(newData) => {
-                setCardsData((prevData) => {
-                  const updatedData = [...prevData];
-                  const cardToUpdate = updatedData.findIndex(
-                    (el) => el.id === cardData.id
-                  );
-                  updatedData[cardToUpdate].title = newData;
-                  return updatedData;
-                });
-              }}
-            />
-            <CardContent cardState={cardState} />
-          </>
-        ) : (
-          <CardReversal />
-        );
-      })}
-
+    <div className="cards-container">
+      {cardsData.map((cardData) => (
+        <Card
+          key={cardData.id}
+          cardData={cardData}
+          cardState={cardState}
+          cardFace={cardFace}
+        />
+      ))}
       <button
+        className="flip-cards-button"
         onClick={() =>
           toggleCardFace((prevFace) =>
             prevFace === CARD_FACE.FRONT ? CARD_FACE.BACK : CARD_FACE.FRONT
@@ -85,4 +77,33 @@ const Card = ({ cardState }: { cardState: CARD_STATE }) => {
   );
 };
 
-export default Card;
+const Card = ({
+  cardData,
+
+  cardState,
+  cardFace,
+}: {
+  cardData: CardData;
+  cardState: CARD_STATE;
+  cardFace: CARD_FACE;
+}) => {
+  return (
+    <div className="card">
+      {cardFace === CARD_FACE.FRONT ? (
+        <>
+          <CardTitle
+            key={cardData.id}
+            cardState={cardState}
+            data={cardData.title}
+            updateData={(newData) => {}}
+          />
+          <CardContent cardState={cardState} />
+        </>
+      ) : (
+        <CardReversal />
+      )}
+    </div>
+  );
+};
+
+export { Card, CardsDisplay };

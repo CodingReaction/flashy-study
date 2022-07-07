@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { useQuery } from "react-query";
 
 import {
   CardData,
@@ -6,9 +8,9 @@ import {
   CARD_STATE,
   CARD_FACE,
 } from "./Card.types";
-import cardsMock from "./../../MockData/Card/cardsMock.json";
 
 import "./Card.styles.css";
+import { SERVER_URL } from "../../globalConfig";
 
 const CardTitle = ({
   cardState,
@@ -51,11 +53,19 @@ const CardReversal = () => {
 const CardsDisplay = () => {
   const [cardState, setCardState] = useState(CARD_STATE.EDITABLE);
   const [cardFace, toggleCardFace] = useState(CARD_FACE.FRONT);
-  const [cardsData, setCardsData] = useState(cardsMock);
+  const {
+    isLoading,
+    error,
+    data: cardsData,
+  } = useQuery("cardsData", () => {
+    return axios.get(SERVER_URL + "/card").then((res) => res.data);
+  });
+
+  if (isLoading) return <h1>Loading</h1>;
 
   return (
     <div className="cards-container">
-      {cardsData.map((cardData) => (
+      {cardsData?.map((cardData: CardData) => (
         <Card
           key={cardData.id}
           cardData={cardData}
